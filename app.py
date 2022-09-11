@@ -3,6 +3,7 @@ from flask import request, render_template, Flask
 from selenium import webdriver
 import channel
 import os
+import pickle
 import logging
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
 
@@ -42,6 +43,8 @@ def get_results():
 
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
+            channel_file = open('channel_obj', 'ab')
+            pickle.dump(channel2, channel_file)
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
@@ -51,9 +54,10 @@ def get_results():
 
 @app.route('/get_urls', methods=['POST'])
 def get_urls():
-    try :
-        global driver, channel2, url, num
+    global driver, channel2, url , num
 
+    try :
+        channel2 = pickle.load(open('channel_obj', 'rb'))
         channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
         data = []
@@ -69,6 +73,7 @@ def get_urls():
 def save_videos():
     global driver, channel2
     try :
+        channel2 = pickle.load(open('channel_obj', 'rb'))
         channel2.save_data()
     except Exception as e:
         logging.exception(e)
@@ -82,6 +87,7 @@ def updates():
     global counter,channel2
     logging.info("Getting updates...")
     try :
+        channel2 = pickle.load(open('channel_obj', 'rb'))
         data = sql_ops.fetch_data(channel2.name, "videodata")
     except Exception as e:
         logging.exception(e)
