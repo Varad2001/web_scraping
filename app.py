@@ -43,6 +43,8 @@ def get_results():
 
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
+            with open("channel_o.pkl", "wb") as f:
+                pickle.dump(channel2, f)
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
@@ -55,7 +57,8 @@ def get_urls():
     #global driver, channel2, url , num
 
     try :
-        channel2 = request.args.get('channel2')
+        f = open("channel_o.pkl", 'rb')
+        channel2 = pickle.load(f)
         channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
         data = []
