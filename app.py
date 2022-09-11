@@ -51,10 +51,11 @@ def get_results():
         return render_template("results.html", name=channel2.name, subs= channel2.subscribers, channel2=channel2)
 
 @app.route('/get_urls', methods=['POST'])
-def get_urls(channel2):
+def get_urls():
     #global driver, channel2, url , num
 
     try :
+        channel2 = request.args.get('channel2')
         channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
         data = []
