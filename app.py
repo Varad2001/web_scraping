@@ -55,7 +55,7 @@ def get_results():
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
             with open("channel_details.txt", 'w') as f:
-                f.write(str(num)+"\n"+url+"\n"+channel2.name+"\n"+0)
+                f.write(str(num)+"\n"+url+"\n"+channel2.name+"\n"+"0")
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
@@ -129,7 +129,7 @@ def updates():
             titles.append(title)
         counter = len(data)
         with open("channel_details.txt", 'w') as f:
-            f.write(str(num) + "\n" + url + "\n" + channel2.name + "\n" + counter)
+            f.write(str(num) + "\n" + url + "\n" + channel2.name + "\n" + str(counter))
 
         logging.info("Updates received. Rendering video.html..")
         return render_template("video.html", video_names = titles, idx=i+1)
