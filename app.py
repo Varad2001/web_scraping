@@ -54,7 +54,7 @@ def get_results():
 
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
-            with open("channel_details.txt", 'wb') as f:
+            with open("channel_details.txt", 'w') as f:
                 f.write(str(num)+"\n"+url)
         except Exception as e:
             logging.exception(e)
@@ -68,7 +68,7 @@ def get_urls():
     #global driver, channel2, url , num
 
     try :
-        with open("channel_details.txt", 'rb') as f:
+        with open("channel_details.txt", 'r') as f:
             num = int(f.readline())
             url = f.readline()
 
