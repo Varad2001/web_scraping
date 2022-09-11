@@ -16,6 +16,7 @@ $.ajax({
     });
 }
 function savedata(){
+document.getElementById("info").innerHTML = "Saving...please wait...";
 $.ajax({
       url: "/save_data",
       type: "post",
