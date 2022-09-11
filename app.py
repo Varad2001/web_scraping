@@ -10,7 +10,7 @@ logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(
 app = Flask(__name__)
 
 # global variables
-channel = None
+channel2 = None
 url = ''
 num = 0
 driver = None
@@ -26,7 +26,7 @@ def home_page():
 def get_results():
     if request.method == 'POST' :
         logging.info("Getting input for channel name and number of videos...")
-        global driver, channel, num , url
+        global driver, channel2, num , url
 
         url = request.form['url']
         num = int(request.form['num'])
@@ -40,23 +40,23 @@ def get_results():
             driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                                       chrome_options=chrome_options)
 
-            channel = channel.Channel(url, driver)          # create a channel object instance
-            channel.get_channel_info(driver)        # get the channel details
+            channel2 = channel.Channel(url, driver)          # create a channel object instance
+            channel2.get_channel_info(driver)        # get the channel details
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
 
         logging.info("Input for channel name and videos number received. Rendering results.html...")
-        return render_template("results.html", name=channel.name, subs= channel.subscribers)
+        return render_template("results.html", name=channel2.name, subs= channel2.subscribers)
 
 @app.route('/get_urls', methods=['POST'])
 def get_urls():
-    global driver, channel, url, num
+    global driver, channel2, url, num
 
-    channel.get_video_urls(num, driver)         # retrieve the urls of the videos
+    channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
     data = []
-    for video in channel.video_objs:
+    for video in channel2.video_objs:
         data.append(str(video.video_url))
 
     logging.info("Rendering get_urls.html....")
@@ -64,9 +64,9 @@ def get_urls():
 
 @app.route('/save_data', methods=['POST'])
 def save_videos():
-    global driver, channel
+    global driver, channel2
     try :
-        channel.save_data()
+        channel2.save_data()
     except Exception as e:
         logging.exception(e)
 
@@ -76,10 +76,10 @@ def save_videos():
 
 @app.route('/get_updates', methods=['POST'])
 def updates():
-    global counter,channel
+    global counter,channel2
     logging.info("Getting updates...")
     try :
-        data = sql_ops.fetch_data(channel.name, "videodata")
+        data = sql_ops.fetch_data(channel2.name, "videodata")
     except Exception as e:
         logging.exception(e)
         return "<p>Fetching data failed.</p>"
