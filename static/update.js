@@ -5,7 +5,7 @@ function geturls(){
 $.ajax({
       url: "/get_urls",
       type: "post",
-      data: {jsdata: {{ channel2 }} },
+      data: {jsdata: {{ num }} },
       success: function(response) {
         add_data(response);
       },

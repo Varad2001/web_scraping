@@ -17,6 +17,17 @@ num = 0
 driver = None
 counter = 0
 
+def get_driver():
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+                              chrome_options=chrome_options)
+    return driver
+
+
 @app.route('/')
 def home_page():
     logging.info("\nApp running....rendering index.html...")
@@ -43,22 +54,27 @@ def get_results():
 
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
-            with open("channel_o.pkl", "wb") as f:
-                pickle.dump(channel2, f)
+            with open("channel_details.txt", 'wb') as f:
+                f.write(str(num)+"\n"+url)
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
 
         logging.info("Input for channel name and videos number received. Rendering results.html...")
-        return render_template("results.html", name=channel2.name, subs= channel2.subscribers, channel2=channel2)
+        return render_template("results.html", name=channel2.name, subs= channel2.subscribers)
 
 @app.route('/get_urls', methods=['POST'])
 def get_urls():
     #global driver, channel2, url , num
 
     try :
-        f = open("channel_o.pkl", 'rb')
-        channel2 = pickle.load(f)
+        with open("channel_details.txt", 'rb') as f:
+            num = int(f.readline())
+            url = f.readline()
+
+        driver = get_driver()
+        channel2 = channel.Channel(url, driver)
+        channel2.get_channel_info(driver)
         channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
         data = []
