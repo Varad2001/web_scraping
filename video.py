@@ -142,10 +142,10 @@ class video:
     def download_video(video_link):
         pass
 
-    def extract_data(self):
+    def extract_data(self, driver):
         try :
-            self.driver.get(self.video_url)
-            self.driver.maximize_window()
+            driver.get(self.video_url)
+            driver.maximize_window()
             time.sleep(3)
             logging.info("Extracting video data...")
         except Exception as e:

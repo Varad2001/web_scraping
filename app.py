@@ -88,7 +88,7 @@ def get_urls():
     logging.info("Rendering get_urls.html....")
     return render_template("get_urls.html", urls = data)
 
-@app.route('/save_data', methods=['POST'])
+@app.route('/save_data', methods=['POST', 'GET'])
 def save_videos():
     #global driver, channel2
     try :
@@ -101,7 +101,7 @@ def save_videos():
         channel2 = channel.Channel(url, driver)
         channel2.get_channel_info(driver)
         channel2.get_video_urls(num, driver)  # retrieve the urls of the videos
-        channel2.save_data()
+        channel2.save_data(driver)
     except Exception as e:
         logging.exception(e)
         return "<p>%s</p>" %e

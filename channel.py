@@ -131,12 +131,12 @@ class Channel:
 
         logging.info("\nGET_VIDEO_URLS FUNCTION COMPLETE.\n")
 
-    def save_data(self):
+    def save_data(self, driver):
         logging.info("\nSaving the channel data to the database ....")
 
         for video_obj in self.video_objs:
             try :
-                video_obj.extract_data()
+                video_obj.extract_data(driver)
                 video_obj.insert_into_sql(self.name)
                 video_obj.insert_into_mongodb(self.name)
             except Exception as e:
