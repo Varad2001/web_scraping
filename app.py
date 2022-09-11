@@ -25,7 +25,7 @@ def home_page():
 @app.route('/results', methods=['POST'])
 def get_results():
     if request.method == 'POST' :
-        """logging.info("Getting input for channel name and number of videos...")
+        logging.info("Getting input for channel name and number of videos...")
         global driver, channel, num , url
 
         url = request.form['url']
@@ -44,10 +44,10 @@ def get_results():
             channel.get_channel_info(driver)        # get the channel details
         except Exception as e:
             logging.exception(e)
+            return "<p>%s</p>" %e
 
         logging.info("Input for channel name and videos number received. Rendering results.html...")
-        return render_template("results.html", name=channel.name, subs= channel.subscribers)"""
-        return "<p>hello</p>"
+        return render_template("results.html", name=channel.name, subs= channel.subscribers)
 
 @app.route('/get_urls', methods=['POST'])
 def get_urls():
