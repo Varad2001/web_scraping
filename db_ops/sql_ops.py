@@ -90,4 +90,3 @@ def fetch_data(db_name, table_name):
         logging.exception(e)
 
     return results
-

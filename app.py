@@ -120,7 +120,8 @@ def updates():
         data = sql_ops.fetch_data(name, "videodata")
     except Exception as e:
         logging.exception(e)
-        return "<p>Fetching data failed.</p>"
+        return "<p>Fetching data failed.%s</p>" %e
+
     if counter < len(data):
         titles = []
         i = counter
