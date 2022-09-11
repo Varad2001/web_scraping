@@ -1,7 +1,7 @@
 from db_ops import mongodb_ops, sql_ops
 from flask import request, render_template, Flask
 from selenium import webdriver
-from channel import Channel
+import channel
 import os
 import logging
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
@@ -40,7 +40,7 @@ def get_results():
             driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                                       chrome_options=chrome_options)
 
-            channel = Channel(url, driver)          # create a channel object instance
+            channel = channel.Channel(url, driver)          # create a channel object instance
             channel.get_channel_info(driver)        # get the channel details
         except Exception as e:
             logging.exception(e)
