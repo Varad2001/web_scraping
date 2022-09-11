@@ -36,6 +36,7 @@ def create_db(db_name):
             logging.info("Database already exists, using it..")
         else :
             logging.exception(e)
+            raise e
 
     query = "create table videodata(" \
             "%s TINYTEXT," \
@@ -49,6 +50,7 @@ def create_db(db_name):
         logging.info("Table 'videodata' created.")
     except Exception as e:
         logging.exception(e)
+        raise e
     finally:
         mydb.close()
 
@@ -61,6 +63,7 @@ def insert_data(db_name,data):
         cursor.execute("use %s" % db_name)
     except Exception as e:
         logging.exception(e)
+        raise e
 
     query = ("insert into videodata values (%s,%s,%s,%s,%s,%s)")
     try :
@@ -69,6 +72,7 @@ def insert_data(db_name,data):
         logging.info("Data inserted successfully.")
     except Exception as e:
         logging.exception(e)
+        raise e
     finally:
         mydb.close()
 

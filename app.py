@@ -91,6 +91,7 @@ def save_videos():
     #global driver, channel2
     try :
         with open("channel_details.txt", 'r') as f:
+            f.seek(0)
             num = int(f.readline())
             url = f.readline()
 
@@ -113,6 +114,7 @@ def updates():
     logging.info("Getting updates...")
     try :
         with open("channel_details.txt", 'r') as f:
+            f.seek(0)
             num = int(f.readline())
             url = f.readline()
             name = f.readline()

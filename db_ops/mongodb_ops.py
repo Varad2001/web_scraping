@@ -22,6 +22,7 @@ def insert_data(db_name, data):
     except Exception as e:
         logging.exception(e)
         raise e
+        raise e
     finally:
         client.close()
 

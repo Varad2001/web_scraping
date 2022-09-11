@@ -150,6 +150,7 @@ class video:
             logging.info("Extracting video data...")
         except Exception as e:
             logging.exception(e)
+            raise e
 
         self.get_title()
         self.get_views_date_likes()
