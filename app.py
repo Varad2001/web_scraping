@@ -43,21 +43,18 @@ def get_results():
 
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
-            channel_file = open('channel_obj', 'ab')
-            pickle.dump(channel2, channel_file)
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
 
         logging.info("Input for channel name and videos number received. Rendering results.html...")
-        return render_template("results.html", name=channel2.name, subs= channel2.subscribers)
+        return render_template("results.html", name=channel2.name, subs= channel2.subscribers, channel2=channel2)
 
 @app.route('/get_urls', methods=['POST'])
-def get_urls():
-    global driver, channel2, url , num
+def get_urls(channel2):
+    #global driver, channel2, url , num
 
     try :
-        channel2 = pickle.load(open('channel_obj', 'rb'))
         channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
         data = []
