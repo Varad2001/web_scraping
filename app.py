@@ -55,7 +55,7 @@ def get_results():
             channel2 = channel.Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
             with open("channel_details.txt", 'w') as f:
-                f.write(str(num)+"\n"+url)
+                f.write(str(num)+"\n"+url+"\n"+channel2.name+"\n"+0)
         except Exception as e:
             logging.exception(e)
             return "<p>%s</p>" %e
@@ -88,12 +88,20 @@ def get_urls():
 
 @app.route('/save_data', methods=['POST'])
 def save_videos():
-    global driver, channel2
+    #global driver, channel2
     try :
-        channel2 = pickle.load(open('channel_obj', 'rb'))
+        with open("channel_details.txt", 'r') as f:
+            num = int(f.readline())
+            url = f.readline()
+
+        driver = get_driver()
+        channel2 = channel.Channel(url, driver)
+        channel2.get_channel_info(driver)
+        channel2.get_video_urls(num, driver)  # retrieve the urls of the videos
         channel2.save_data()
     except Exception as e:
         logging.exception(e)
+        return "<p>%s</p>" %e
 
     logging.info("All data saved.")
     return "<h2>All data have been saved successfully !!</h2>"
@@ -101,11 +109,15 @@ def save_videos():
 
 @app.route('/get_updates', methods=['POST'])
 def updates():
-    global counter,channel2
+    #global counter,channel2
     logging.info("Getting updates...")
     try :
-        channel2 = pickle.load(open('channel_obj', 'rb'))
-        data = sql_ops.fetch_data(channel2.name, "videodata")
+        with open("channel_details.txt", 'r') as f:
+            num = int(f.readline())
+            url = f.readline()
+            name = f.readline()
+            counter = int(f.readline())
+        data = sql_ops.fetch_data(name, "videodata")
     except Exception as e:
         logging.exception(e)
         return "<p>Fetching data failed.</p>"
@@ -116,6 +128,8 @@ def updates():
             title = v[1]
             titles.append(title)
         counter = len(data)
+        with open("channel_details.txt", 'w') as f:
+            f.write(str(num) + "\n" + url + "\n" + channel2.name + "\n" + counter)
 
         logging.info("Updates received. Rendering video.html..")
         return render_template("video.html", video_names = titles, idx=i+1)
