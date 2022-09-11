@@ -51,13 +51,16 @@ def get_results():
 
 @app.route('/get_urls', methods=['POST'])
 def get_urls():
-    global driver, channel2, url, num
+    try :
+        global driver, channel2, url, num
 
-    channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
+        channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
-    data = []
-    for video in channel2.video_objs:
-        data.append(str(video.video_url))
+        data = []
+        for video in channel2.video_objs:
+            data.append(str(video.video_url))
+    except Exception as e:
+        return "<p>%s</p>" %e
 
     logging.info("Rendering get_urls.html....")
     return render_template("get_urls.html", urls = data)
