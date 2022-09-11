@@ -141,6 +141,7 @@ class Channel:
                 video_obj.insert_into_mongodb(self.name)
             except Exception as e:
                 logging.exception(e)
+                raise e
 
         logging.info("Videos saved to the databases successfully.")
 

@@ -129,7 +129,7 @@ def updates():
             titles.append(title)
         counter = len(data)
         with open("channel_details.txt", 'w') as f:
-            f.write(str(num) + "\n" + url + "\n" + channel2.name + "\n" + str(counter))
+            f.write(str(num) + "\n" + url + "\n" + name + "\n" + str(counter))
 
         logging.info("Updates received. Rendering video.html..")
         return render_template("video.html", video_names = titles, idx=i+1)

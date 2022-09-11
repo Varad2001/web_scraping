@@ -8,6 +8,7 @@ def insert_data(db_name, data):
         client = pymongo.MongoClient("mongodb+srv://varadkhonde:yadneshkhonde@cluster0.zeesz.mongodb.net/?retryWrites=true&w=majority")
     except Exception as e:
         logging.exception(e)
+        raise e
 
     # create a database or use existing one
     db = client[db_name]
@@ -20,6 +21,7 @@ def insert_data(db_name, data):
         logging.info("Data inserted successfully.")
     except Exception as e:
         logging.exception(e)
+        raise e
     finally:
         client.close()
 
