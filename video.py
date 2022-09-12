@@ -151,11 +151,14 @@ class video:
         except Exception as e:
             logging.exception(e)
             raise e
-
-        self.get_title()
-        self.get_views_date_likes()
-        self.get_comments_info()
-        self.get_thumbnail()
+        try :
+            self.get_title()
+            self.get_views_date_likes()
+            self.get_comments_info()
+            self.get_thumbnail()
+        except Exception as e:
+            logging.exception(e)
+            raise e
 
     def insert_into_sql(self, db_name):
         # following columns are present in the Mysql database

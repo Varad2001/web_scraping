@@ -8,13 +8,7 @@ endpoint = "videoscraper.cjo7hysuktlq.us-east-1.rds.amazonaws.com"
 port = '3306'
 user = "admin"
 region = 'us-east-1'
-db_name = 'videoscraper'
 passwd = 'yadneshkhonde'
-
-session = boto3.Session(aws_access_key_id="AKIAZKTEYDYFXQ34N6K2",
-                                aws_secret_access_key="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",
-                                region_name="us-east-1")
-client = session.client('rds')
 
 
 def create_db(db_name):
@@ -94,3 +88,11 @@ def fetch_data(db_name, table_name):
         logging.exception(e)
 
     return results
+
+
+mydb = conn.connect(host=endpoint, user=user, passwd= passwd, port=port, ssl_ca='SSLCERTIFICATE')
+cursor = mydb.cursor()
+#cursor.execute("show databases")
+cursor.execute("use CERN_Lectures")
+cursor.execute("select * from videodata")
+print(cursor.fetchall())
