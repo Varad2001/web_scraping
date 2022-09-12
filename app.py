@@ -87,10 +87,7 @@ def get_urls():
     logging.info("Rendering get_urls.html....")
     return render_template("get_urls.html", urls = data)
 
-@app.route('/save_data', methods=['POST', 'GET'])
-def save_func():
-    new_thread = threading.Thread(target=save_videos)
-    new_thread.start()
+
 
 def save_videos():
     #global driver, channel2
@@ -111,6 +108,12 @@ def save_videos():
 
     logging.info("All data saved.")
     return "<h2>All data have been saved successfully !!</h2>"
+
+
+@app.route('/save_data', methods=['POST', 'GET'])
+def save_func():
+    new_thread = threading.Thread(target=save_videos)
+    new_thread.start()
 
 
 @app.route('/get_updates', methods=['POST'])
