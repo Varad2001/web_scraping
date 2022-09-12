@@ -5,7 +5,8 @@
     Saved the following video :<br>
         Video number : {{ idx }}
         <b>{{ video }}</b>
+    {% set idx = idx + 1 %}
 </div>
 <hr>
-{% set idx = idx + 1 %}
+
 {% endfor %}
