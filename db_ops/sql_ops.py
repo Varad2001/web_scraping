@@ -1,5 +1,4 @@
 import mysql.connector as conn
-import boto3
 import logging
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
 

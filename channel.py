@@ -1,6 +1,5 @@
 import video
-from db_ops import mongodb_ops, sql_ops
-from selenium import webdriver
+from db_ops import sql_ops
 from selenium.webdriver.common.by import By
 import logging, time
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
