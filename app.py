@@ -3,6 +3,7 @@ from flask import request, render_template, Flask
 from selenium import webdriver
 from channel import Channel
 import os
+import threading
 import logging
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
 
@@ -87,6 +88,10 @@ def get_urls():
     return render_template("get_urls.html", urls = data)
 
 @app.route('/save_data', methods=['POST', 'GET'])
+def save_func():
+    new_thread = threading.Thread(target=save_videos)
+    new_thread.start()
+
 def save_videos():
     #global driver, channel2
     try :
@@ -102,7 +107,7 @@ def save_videos():
         channel2.save_data(driver)
     except Exception as e:
         logging.exception(e)
-        return "<p>%s</p>" %e
+
 
     logging.info("All data saved.")
     return "<h2>All data have been saved successfully !!</h2>"
