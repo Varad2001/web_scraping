@@ -1,9 +1,8 @@
-from db_ops import mongodb_ops, sql_ops
+from db_ops import sql_ops
 from flask import request, render_template, Flask
 from selenium import webdriver
-import channel
+from channel import Channel
 import os
-import pickle
 import logging
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
 
@@ -39,7 +38,6 @@ def home_page():
 def get_results():
     if request.method == 'POST' :
         logging.info("Getting input for channel name and number of videos...")
-        global driver, channel2, num , url
 
         url = request.form['url']
         num = int(request.form['num'])
@@ -54,7 +52,7 @@ def get_results():
                                       chrome_options=chrome_options)"""
             driver = get_driver()
 
-            channel2 = channel.Channel(url, driver)          # create a channel object instance
+            channel2 = Channel(url, driver)          # create a channel object instance
             channel2.get_channel_info(driver)        # get the channel details
             with open("channel_details.txt", 'w') as f:
                 f.write(str(num)+"\n"+url+"\n"+channel2.name+"\n"+"0")
@@ -75,7 +73,7 @@ def get_urls():
             url = f.readline()
 
         driver = get_driver()
-        channel2 = channel.Channel(url, driver)
+        channel2 = Channel(url, driver)
         channel2.get_channel_info(driver)
         channel2.get_video_urls(num, driver)         # retrieve the urls of the videos
 
@@ -98,7 +96,7 @@ def save_videos():
             url = f.readline()
 
         driver = get_driver()
-        channel2 = channel.Channel(url, driver)
+        channel2 = Channel(url, driver)
         channel2.get_channel_info(driver)
         channel2.get_video_urls(num, driver)  # retrieve the urls of the videos
         channel2.save_data(driver)
