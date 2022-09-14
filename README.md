@@ -14,4 +14,4 @@ Tools and working:<br>
   <li> Other details : OOPs concepts used </li>
   </ul>
   <br>
-  
+  Note : The deployment has been turned off as AWS RDS and Elastic Beanstalk services are not free and may charge me when the free tier is exceeded.
