@@ -1,18 +1,21 @@
 import mysql.connector as conn
 import logging
 logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(name)s:%(levelname)s:%(asctime)s:%(message)s" )
+import os
+from dotenv import load_dotenv
 
 # credential for aws rds
 endpoint = "videoscraper.cjo7hysuktlq.us-east-1.rds.amazonaws.com"
 port = '3306'
-user = "admin"
 region = 'us-east-1'
-passwd = 'yadneshkhonde'
 
 
 def create_db(db_name):
     logging.info("\nCreate database request for %s..." %db_name)
+    load_dotenv()
     try:
+        user = os.environ.get('USER_SQL')
+        passwd = os.environ.get('PASS_SQL')
         mydb = conn.connect(host=endpoint, user=user, passwd= passwd, port=port, ssl_ca='SSLCERTIFICATE')
     except Exception as e:
         logging.exception(e)
@@ -50,7 +53,10 @@ def create_db(db_name):
 
 def insert_data(db_name,data):
     logging.info("Inserting data to %s..." % db_name)
+    load_dotenv()
     try:
+        user = os.environ.get('USER_SQL')
+        passwd = os.environ.get('PASS_SQL')
         mydb = conn.connect(host=endpoint, user=user, passwd= passwd, port=port, ssl_ca='SSLCERTIFICATE')
         cursor = mydb.cursor()
         cursor.execute("use %s" % db_name)
@@ -72,7 +78,10 @@ def insert_data(db_name,data):
 
 def fetch_data(db_name, table_name):
     logging.info("Fetching data from database {}, table {}...".format(db_name,table_name))
+    load_dotenv()
     try:
+        user = os.environ.get('USER_SQL')
+        passwd = os.environ.get('PASS_SQL')
         mydb = conn.connect(host=endpoint, user=user, passwd=passwd, port=port, ssl_ca='SSLCERTIFICATE')
     except Exception as e:
         logging.exception(e)
