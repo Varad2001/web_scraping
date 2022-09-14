@@ -10,12 +10,6 @@ logging.basicConfig(filename="video_scraper.log", level=logging.INFO, format="%(
 
 app = Flask(__name__)
 
-# global variables
-channel2 = None
-url = ''
-num = 0
-driver = None
-counter = 0
 
 def get_driver():
     chrome_options = webdriver.ChromeOptions()
@@ -25,7 +19,7 @@ def get_driver():
     chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                              chrome_options=chrome_options)
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    #driver = webdriver.Chrome(chrome_options=chrome_options)
     return driver
 
 
@@ -66,7 +60,6 @@ def get_results():
 
 @app.route('/get_urls', methods=['POST'])
 def get_urls():
-    #global driver, channel2, url , num
 
     try :
         with open("channel_details.txt", 'r') as f:
@@ -90,7 +83,6 @@ def get_urls():
 
 
 def save_videos():
-    #global driver, channel2
     try :
         with open("channel_details.txt", 'r') as f:
             f.seek(0)
